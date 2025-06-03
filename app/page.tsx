@@ -1,103 +1,59 @@
-import Image from "next/image";
+import { FC } from 'react';
 
-export default function Home() {
+const Home: FC = () => {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div>
+      {/* Header/Tagline */}
+      <h1>Discover what’s possible with 3D printing</h1>
+      <p>Join our community of creators user-submitted 3D models</p>
+      
+      {/* CTA Button */}
+      <a href="/products">Browse Models</a>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Launch my site! 🚀
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Product Listings */}
+      <div>
+        <h2>Featured Products</h2>
+        <div>
+          <h3>Printer Upgrade Kit</h3>
+          <p>Enhancer parts for 3D printer</p>
+          <p>$799</p>
+          <span>♥</span>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <div>
+          <h3>Printer Upgrade Kit</h3>
+          <p>Enhancer parts for 3D printer</p>
+          <p>$799</p>
+          <span>♥</span>
+        </div>
+      </div>
+
+      {/* About Section */}
+      <div>
+        <h2>About PrintForge</h2>
+        <p>Founded in 2023, PrintForge is a platform for 3D printing to-go enthusiasts, makers, and creators to share and discover amazing 3D files.</p>
+      </div>
+
+      {/* Community Features */}
+      <div>
+        <h2>Empowering makers worldwide</h2>
+        <p>Our mission is to foster a vibrant community where creativity enables anyone to bring their ideas to life through 3D printing.</p>
+      </div>
+
+      <div>
+        <h2>Our vision</h2>
+        <p>At PrintForge, we believe that 3D printing is revolutionizing manufacturing. Our platform serves as a bridge between designers and makers, enabling the sharing of knowledge and pushing the boundaries of what’s possible with 3D printing.</p>
+      </div>
+
+      <div>
+        <h2>100K+ Models</h2>
+        <p>Access our vast library of community-submitted 3D models and tools to artistic creations.</p>
+        <a href="/products">Active Community</a>
+        <p>Join thousands of makers who share tips, provide feedback, and collaborate on projects.</p>
+        <a href="/about">Free to Use</a>
+        <p>Most models are free to download, with optional premium features for power users.</p>
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
