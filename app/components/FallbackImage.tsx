@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 interface FallbackImageProps {
@@ -13,12 +14,13 @@ export default function FallbackImage({ src, fallbackSrc, alt, className }: Fall
   const [imgSrc, setImgSrc] = useState(src);
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
+    <Image
       src={imgSrc}
-      onError={() => setImgSrc(fallbackSrc)}
       alt={alt}
       className={className}
+      width={300}
+      height={300}
+      onError={() => setImgSrc(fallbackSrc)}
     />
   );
 }

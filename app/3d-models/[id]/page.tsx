@@ -1,37 +1,62 @@
-import { notFound } from "next/navigation";
-import type { ModelDetailPageProps } from "@/app/types";
-import { getModelById } from "@/app/lib/models";
-import FallbackImage from "@/app/components/FallbackImage";
+// app/3d-models/[id]/page.tsx
+"use client"; // Add this directive
 
-export default async function ModelDetailPage({ params }: ModelDetailPageProps) {
-  const { id } = await params;
-  const model = await getModelById(Number(id));
+import { useParams } from 'next/navigation';
+import models from '@/app/data/models.json';
+import Image from 'next/image';
 
-  if (!model) {
-    notFound();
+// Define the Model interface
+interface Model {
+  id: number;
+  name: string;
+  description: string;
+  likes: number;
+  image: string;
+  backupImage: string;
+  category: string;
+  dateAdded: string;
+}
+
+export default function ModelPage() {
+  const params = useParams();
+  const id = params?.id;
+
+  // Ensure id is a string
+  if (!id || typeof id !== 'string') {
+    return <div className="text-center text-xl mt-10">Invalid ID</div>;
   }
 
+  const model = models.find((m: Model) => m.id === parseInt(id));
+
+  if (!model) return <div className="text-center text-xl mt-10">Model not found</div>;
+
   return (
-    <main className="container max-w-4xl px-4 py-8 mx-auto">
-      <h1 className="mb-6 text-4xl font-bold text-center">{model.name}</h1>
-      <div className="grid items-center gap-8 mb-12 md:grid-cols-2">
-        <div className="relative h-[300px] w-full">
-          <FallbackImage
-            src={model.image}
-            fallbackSrc="https://images.unsplash.com/photo-1591796146141-3e7b2e5e9b4f?w=300"
-            alt={model.name}
-            className="absolute inset-0 w-full h-full object-cover rounded-lg"
-          />
-        </div>
-        <div>
-          <p className="mb-4 text-sm text-gray-600 uppercase">{model.category}</p>
-          <p className="mb-4 text-gray-700">{model.description}</p>
-          <p className="text-gray-700">Likes: {model.likes} ♥</p>
-          <p className="text-gray-700">
-            Added: {new Date(model.dateAdded).toLocaleDateString()}
-          </p>
-        </div>
+    <div className="max-w-5xl mx-auto p-5">
+      <h1 className="text-3xl font-bold mb-4">{model.name}</h1>
+      <div className="max-w-xl mx-auto">
+        <Image
+          src={model.image}
+          alt={model.name}
+          width={600}
+          height={600}
+          layout="responsive"
+          className="object-contain"
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            e.currentTarget.src = model.backupImage;
+          }}
+          priority
+        />
       </div>
-    </main>
+      <p className="mt-4 text-lg">{model.description}</p>
+      <p className="mt-2">Likes: {model.likes}</p>
+      <p className="mt-2">Category: {model.category}</p>
+      <p className="mt-2">Date Added: {new Date(model.dateAdded).toLocaleDateString()}</p>
+    </div>
   );
+}
+
+export async function generateStaticParams() {
+  return models.map((model: Model) => ({
+    id: model.id.toString(),
+  }));
 }
