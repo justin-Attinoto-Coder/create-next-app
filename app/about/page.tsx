@@ -43,7 +43,7 @@ export default function AboutPage() {
           <h2 id="key-features" className="sr-only">Key Features</h2>
           <div className="grid gap-6 md:gap-0 md:grid-cols-3">
             <article className="p-6 bg-white">
-              <h3 className="mb-3 text-xl font-semibold font-montserrat-alternates">
+              <h3 className="mb-3 text-xl text-gray-900 font-semibold font-montserrat-alternates">
                 100K+ Models
               </h3>
               <p className="text-gray-600">
@@ -52,7 +52,7 @@ export default function AboutPage() {
               </p>
             </article>
             <article className="p-6 bg-white border-gray-400 md:border-x">
-              <h3 className="mb-3 text-xl font-semibold font-montserrat-alternates">
+              <h3 className="mb-3 text-xl text-gray-900 font-semibold font-montserrat-alternates">
                 Active Community
               </h3>
               <p className="text-gray-600">
@@ -61,7 +61,7 @@ export default function AboutPage() {
               </p>
             </article>
             <article className="p-6 bg-white">
-              <h3 className="mb-3 text-xl font-semibold font-montserrat-alternates">
+              <h3 className="mb-3 text-xl text-gray-900 font-semibold font-montserrat-alternates">
                 Free to Use
               </h3>
               <p className="text-gray-600">

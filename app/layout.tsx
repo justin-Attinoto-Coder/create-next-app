@@ -40,11 +40,11 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 />
               </div>
             </Link>
-            <ul className="flex items-center gap-2.5">
+            <ul className="flex items-center text-gray-900 gap-2.5">
               <li className="text-sm uppercase cursor-pointer">
                 <Link href="/3d-models">3D Models</Link>
               </li>
-              <li className="text-sm uppercase cursor-pointer">
+              <li className="text-sm text-gray-900 uppercase cursor-pointer">
                 <Link href="/about">About</Link>
               </li>
             </ul>
