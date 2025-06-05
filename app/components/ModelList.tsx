@@ -33,7 +33,7 @@ export default function ModelList({ initialModels }: ModelListProps) {
                 src={model.image}
                 fallbackSrc={model.backupImage}
                 alt={model.name}
-                className="w-full h-48 object-cover rounded-t-lg mb-4"
+                className="w-full h-96 object-cover rounded-t-lg mb-4"
               />
               <h2 className="text-xl font-semibold mb-2">{model.name}</h2>
               <p className="text-gray-600 text-sm mb-2">{model.description}</p>
