@@ -14,12 +14,20 @@ interface Model {
   dateAdded: string;
 }
 
-interface ModelPageProps {
-  params: { id: string };
+// Define the params type explicitly
+interface Params {
+  id: string;
 }
 
-export default function ModelPage({ params }: ModelPageProps) {
-  const id = params.id;
+// Define the props type to match Next.js expectations
+interface ModelPageProps {
+  params: Promise<Params>;
+}
+
+export default async function ModelPage({ params }: ModelPageProps) {
+  // Resolve params since it's a Promise
+  const resolvedParams = await params;
+  const id = resolvedParams.id;
 
   // Ensure id is a string
   if (!id || typeof id !== 'string') {
