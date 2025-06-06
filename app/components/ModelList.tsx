@@ -1,6 +1,7 @@
+// app/components/ModelList.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import type { Model } from "@/app/types";
 import FallbackImage from "@/app/components/FallbackImage";
@@ -11,13 +12,35 @@ interface ModelListProps {
 
 export default function ModelList({ initialModels }: ModelListProps) {
   const [models, setModels] = useState(initialModels);
+  const [likedModels, setLikedModels] = useState<{ [key: number]: boolean }>({});
+  const [showMessages, setShowMessages] = useState<{ [key: number]: boolean }>({});
 
-  const handleLike = (id: number) => {
+  // Load liked state from local storage on mount
+  useEffect(() => {
+    const storedLikedModels = JSON.parse(localStorage.getItem('likedModels') || '{}');
+    setLikedModels(storedLikedModels);
+  }, []);
+
+  const handleLike = (id: number) => { // Removed unused 'name' parameter
+    // Increment likes
     setModels((prevModels) =>
       prevModels.map((model) =>
         model.id === id ? { ...model, likes: model.likes + 1 } : model
       )
     );
+
+    // Update liked state
+    setLikedModels((prev) => {
+      const newLiked = { ...prev, [id]: true };
+      localStorage.setItem('likedModels', JSON.stringify(newLiked));
+      return newLiked;
+    });
+
+    // Show pop-up message
+    setShowMessages((prev) => ({ ...prev, [id]: true }));
+    setTimeout(() => {
+      setShowMessages((prev) => ({ ...prev, [id]: false }));
+    }, 3000); // Hide message after 3 seconds
   };
 
   return (
@@ -25,7 +48,7 @@ export default function ModelList({ initialModels }: ModelListProps) {
       {models.map((model) => (
         <div
           key={model.id}
-          className="border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow"
+          className="border border-gray-200 rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow relative"
         >
           <Link href={`/3d-models/${model.id}`}>
             <div>
@@ -44,11 +67,19 @@ export default function ModelList({ initialModels }: ModelListProps) {
             <span className="text-gray-700">Likes: {model.likes} ♥</span>
             <button
               onClick={() => handleLike(model.id)}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+              disabled={likedModels[model.id]}
+              className={`px-4 py-2 rounded ${
+                likedModels[model.id] ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'
+              } text-white transition-colors`}
             >
-              Like
+              {likedModels[model.id] ? 'Liked' : 'Like'}
             </button>
           </div>
+          {showMessages[model.id] && (
+            <div className="mt-2 p-2 bg-green-100 text-green-800 rounded absolute top-0 left-0 w-full">
+              You liked this {`"${model.name}"`} 3D model!
+            </div>
+          )}
         </div>
       ))}
     </div>
