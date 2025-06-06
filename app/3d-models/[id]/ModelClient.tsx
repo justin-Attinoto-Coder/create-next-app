@@ -23,22 +23,34 @@ interface ModelClientProps {
 export default function ModelClient({ model }: ModelClientProps) {
   const [isLiked, setIsLiked] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [likes, setLikes] = useState(model.likes);
 
-  // Load liked state from local storage on mount
+  // Reset liked state on page load
   useEffect(() => {
-    const likedModels = JSON.parse(localStorage.getItem('likedModels') || '{}');
-    setIsLiked(!!likedModels[model.id]);
-  }, [model.id]);
+    localStorage.removeItem('likedModels'); // Clear liked state on reload
+    setIsLiked(false);
+  }, []);
 
-  const handleLike = () => {
-    setIsLiked(true);
-    setShowMessage(true);
-    setTimeout(() => setShowMessage(false), 3000); // Hide message after 3 seconds
+  const handleLikeToggle = () => {
+    if (isLiked) {
+      // Unlike: toggle back to "Like" and decrement likes
+      setIsLiked(false);
+      setLikes((prev) => prev - 1);
+      const likedModels = JSON.parse(localStorage.getItem('likedModels') || '{}');
+      delete likedModels[model.id];
+      localStorage.setItem('likedModels', JSON.stringify(likedModels));
+    } else {
+      // Like: toggle to "Liked" and increment likes
+      setIsLiked(true);
+      setShowMessage(true);
+      setLikes((prev) => prev + 1);
+      setTimeout(() => setShowMessage(false), 3000); // Hide message after 3 seconds
 
-    // Save to local storage
-    const likedModels = JSON.parse(localStorage.getItem('likedModels') || '{}');
-    likedModels[model.id] = true;
-    localStorage.setItem('likedModels', JSON.stringify(likedModels));
+      // Save to local storage
+      const likedModels = JSON.parse(localStorage.getItem('likedModels') || '{}');
+      likedModels[model.id] = true;
+      localStorage.setItem('likedModels', JSON.stringify(likedModels));
+    }
   };
 
   return (
@@ -59,13 +71,12 @@ export default function ModelClient({ model }: ModelClientProps) {
         />
       </div>
       <p className="mt-4 text-lg">{model.description}</p>
-      <p className="mt-2">Likes: {model.likes}</p>
+      <p className="mt-2">Likes: {likes}</p>
       <p className="mt-2">Category: {model.category}</p>
       <p className="mt-2">Date Added: {new Date(model.dateAdded).toLocaleDateString()}</p>
       <button
-        onClick={handleLike}
-        disabled={isLiked}
-        className={`mt-4 px-4 py-2 rounded ${isLiked ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
+        onClick={handleLikeToggle}
+        className={`mt-4 px-4 py-2 rounded ${isLiked ? 'bg-gray-400 hover:bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'} text-white`}
       >
         {isLiked ? 'Liked' : 'Like'}
       </button>

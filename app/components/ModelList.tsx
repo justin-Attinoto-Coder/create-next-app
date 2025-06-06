@@ -15,32 +15,38 @@ export default function ModelList({ initialModels }: ModelListProps) {
   const [likedModels, setLikedModels] = useState<{ [key: number]: boolean }>({});
   const [showMessages, setShowMessages] = useState<{ [key: number]: boolean }>({});
 
-  // Load liked state from local storage on mount
+  // Reset liked state on page load
   useEffect(() => {
-    const storedLikedModels = JSON.parse(localStorage.getItem('likedModels') || '{}');
-    setLikedModels(storedLikedModels);
+    localStorage.removeItem('likedModels'); // Clear liked state on reload
+    setLikedModels({});
   }, []);
 
-  const handleLike = (id: number) => { // Removed unused 'name' parameter
-    // Increment likes
-    setModels((prevModels) =>
-      prevModels.map((model) =>
-        model.id === id ? { ...model, likes: model.likes + 1 } : model
-      )
-    );
+  const handleLikeToggle = (id: number) => {
+    const model = models.find((m) => m.id === id);
+    if (!model) return;
 
-    // Update liked state
+    // Toggle liked state
     setLikedModels((prev) => {
-      const newLiked = { ...prev, [id]: true };
+      const isCurrentlyLiked = !!prev[id];
+      const newLiked = { ...prev, [id]: !isCurrentlyLiked };
       localStorage.setItem('likedModels', JSON.stringify(newLiked));
       return newLiked;
     });
 
-    // Show pop-up message
-    setShowMessages((prev) => ({ ...prev, [id]: true }));
-    setTimeout(() => {
-      setShowMessages((prev) => ({ ...prev, [id]: false }));
-    }, 3000); // Hide message after 3 seconds
+    // Update likes count
+    setModels((prevModels) =>
+      prevModels.map((m) =>
+        m.id === id ? { ...m, likes: likedModels[id] ? m.likes - 1 : m.likes + 1 } : m
+      )
+    );
+
+    // Show pop-up message only when liking
+    if (!likedModels[id]) {
+      setShowMessages((prev) => ({ ...prev, [id]: true }));
+      setTimeout(() => {
+        setShowMessages((prev) => ({ ...prev, [id]: false }));
+      }, 3000); // Hide message after 3 seconds
+    }
   };
 
   return (
@@ -66,10 +72,9 @@ export default function ModelList({ initialModels }: ModelListProps) {
           <div className="flex items-center justify-between">
             <span className="text-gray-700">Likes: {model.likes} ♥</span>
             <button
-              onClick={() => handleLike(model.id)}
-              disabled={likedModels[model.id]}
+              onClick={() => handleLikeToggle(model.id)}
               className={`px-4 py-2 rounded ${
-                likedModels[model.id] ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600'
+                likedModels[model.id] ? 'bg-gray-400 hover:bg-gray-500' : 'bg-blue-500 hover:bg-blue-600'
               } text-white transition-colors`}
             >
               {likedModels[model.id] ? 'Liked' : 'Like'}
