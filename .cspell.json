@@ -1,0 +1,18 @@
+// .cspell.json
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "recompiles",
+    "jsxdev",
+    "nodenext",
+    "lassic",
+    "undler",
+    "codepaths"
+  ],
+  "ignorePaths": [
+    "node_modules",
+    "dist",
+    "*.json"
+  ]
+}
