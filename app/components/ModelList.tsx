@@ -81,7 +81,7 @@ export default function ModelList({ initialModels }: ModelListProps) {
             </button>
           </div>
           {showMessages[model.id] && (
-            <div className="mt-2 p-2 bg-green-100 text-green-800 rounded absolute top-0 left-0 w-full">
+            <div className="fixed top-0 left-0 w-full bg-green-100 text-green-800 p-4 text-center z-50 shadow-md">
               You liked this {`"${model.name}"`} 3D model!
             </div>
           )}

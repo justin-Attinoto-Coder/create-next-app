@@ -56,12 +56,12 @@ export default function ModelClient({ model }: ModelClientProps) {
   return (
     <div className="max-w-5xl mx-auto p-5 text-center">
       <h1 className="text-3xl font-bold mb-4">{model.name}</h1>
-      <div className="max-w-md mx-auto">
+      <div className="max-w-xs mx-auto md:max-w-sm">
         <Image
           src={model.image}
           alt={model.name}
-          width={600}
-          height={600}
+          width={400}
+          height={400}
           layout="responsive"
           className="object-contain"
           onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -81,7 +81,7 @@ export default function ModelClient({ model }: ModelClientProps) {
         {isLiked ? 'Liked' : 'Like'}
       </button>
       {showMessage && (
-        <div className="mt-4 p-4 bg-green-100 text-green-800 rounded">
+        <div className="fixed top-0 left-0 w-full bg-green-100 text-green-800 p-4 text-center z-50 shadow-md">
           You liked this {`"${model.name}"`} 3D model!
         </div>
       )}
